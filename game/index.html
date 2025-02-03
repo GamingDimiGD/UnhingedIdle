@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="icon" type="image/x-icon" href="../images/sparkles.png">
+
+    <!-- cdn -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jStorage/0.4.12/jstorage.js"
+        integrity="sha512-/xG2u1+39ezvrTHLgDuWJ07cIOJdBgYxOQ8s/2DkeRWInLMfe4aLBe/5Zd8ECpY/uBKsdY+i1xOEGG4a6RnXHA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/fbd704794c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"
+        integrity="sha512-vc58qvvBdrDR4etbxMdlTt4GBQk1qjvyORR2nrsPsFPyrs+/u5c3+1Ct6upOgdZoIl7eq6k3a1UPDSNAQi/32A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"
+        integrity="sha512-6+7rTBmR6pRFe9fa0vCFjFaHZj/XYa7774bEBzRtxgdpIJOS++R3cKd6Prg/eJmxtsJotd8KAg4g57uuVQsZKA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"
+        integrity="sha512-/seDHxVfh1NvFUscAj8GsHQVZJvr2jjAoYsNL7As2FCaFHUHYIarl3sRCvVlFgyouVNiRgHIebyLKjpgd1SLDw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/disable-devtool@0.3.8/disable-devtool.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunar-javascript/1.6.13/lunar.js"
+        integrity="sha512-tSk1UdQG0t01yvUCHGmD8Z58eax0WpQWfZ+m7FcabU9U44ENCU/n/J3QaqCUZwNtjhiaf09djhGrrZDZtCP0XQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://peterolson.github.io/BigInteger.js/BigInteger.min.js"></script>
+    <!-- https://github.com/peterolson/BigInteger.js for how to use -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <!-- scripts -->
+    <script src="../scripts/usefulFunctions.js" defer></script>
+    <script src="../scripts/inputHandler.js" defer></script>
+    <script src="../scripts/script.js" defer></script>
+    <script src="../scripts/news.js" defer></script>
+    <script src="../scripts/shop.js" defer></script>
+    <script src="../scripts/rebirth.js" defer></script>
+    <title>Unhinged Idle</title>
+</head>
+
+<body>
+    <div class="hover-text"></div>
+    <div class="fixed-panel">
+        <h1 class="title">Unhinged Idle</h1>
+        <img src="../images/generator.png" alt="Sparkles generator" class="generator" data-hover-text="星塵製造機">
+        <div class="info">
+            <div class="sdd">
+                <b class="stardust">0</b> 粒星塵
+            </div>
+            <div class="spd">
+                <b class="sparkles">0</b> 閃
+            </div>
+            <div>
+                約 <b class="persecond">0</b>/秒
+            </div>
+            <div class="news">載入中</div>
+            <button class="open-dp"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+    <div class="dynamic-panel">
+        <div class="content">
+            <div class="shop menu show">
+                <h1>商店</h1>
+                <div class="shop-items">
+                    
+                </div>
+            </div>
+            <div class="craft-to-sparkles menu">
+                <h1>合成閃</h1>
+                <h2>需要100星塵合成一閃</h2>
+                <button onclick="if(takeStardust(100)) {giveSparkles(1)}">合成!</button>
+                <button class="craft-half" onclick="
+        if(game.stardust < 100) return;
+        let amountToSparkle = Math.ceil(game.stardust / 200) * 100
+        takeStardust(amountToSparkle)
+        giveSparkles(amountToSparkle / 100)
+                ">合成一半!</button>
+                <button class="craft-all" onclick="
+        if(game.stardust < 100) return;
+        let os = Math.floor(game.stardust/100)*100
+        takeStardust(os)
+        giveSparkles(os/100)
+        ">合成全部!</button>
+                <button onclick="toggleAutoCraft()" disabled class="auto-sparkles-button">自動合成: 關</button>
+                <button onclick="toggleAutoCraftAll()" disabled class="auto-craft-all">自動合成全部: 關</button>
+                <h2>星塵升級</h2>
+                <div class="sd-upgrade-items">
+                    
+                </div>
+                
+            </div>
+            <div class="speed-for-mult menu">
+                <h1>速度轉倍率</h1>
+                <p>
+                    每秒拿到的星塵與閃會是一樣的，你倍率越高，電腦越輕鬆，延遲的影響就會較小。
+                </p>
+                <h2 class="sfm-display">製造速度: 0.01秒<br>轉成倍率: 1倍</h2>
+                <h2 class="delay">延遲: 0.000秒</h2>
+                <div class="ratios">
+                    <button onclick="sfm(1)">0.01秒<br>1倍</button>
+                    <button onclick="sfm(10)">0.1秒<br>10倍</button>
+                    <button onclick="sfm(25)">0.25秒<br>25倍</button>
+                    <button onclick="sfm(50)">0.5秒<br>50倍</button>
+                    <button onclick="sfm(75)">0.75秒<br>75倍</button>
+                    <button onclick="sfm(100)">1秒<br>100倍</button>
+                    <button onclick="sfm(200)">2秒<br>200倍</button>
+                </div>
+                <div class="enter-sfm-ratio">
+                    <input type="number" placeholder="輸入倍率 1~1000秒" class="change-sfm-input" min="1" max="1000"> <button class="submit-sfm" onclick="sfm($('.change-sfm-input').val())">更改!</button>
+                </div>
+            </div>
+            <div class="rebirth menu">
+                <h1>重生</h1>
+                <h2>當你達到<b class="rebirth-requirement">x</b>閃時，可以轉生，會重置你的星塵、閃、商店跟星塵升級。</h2>
+                <h3 class="rebirth-display">轉生次數: 0<br>轉生分數: 0</h3>
+                <button class="rebirth-button">重生!</button>
+            </div>
+            <div class="settings menu">
+                <h1>設定</h1>
+                <div class="settings-buttons">
+                    <button onclick="toggleMode()" class="change-mode">切換顏色模式: 自動</button>
+                    <button onclick="toggleShortenMode()" class="toggle-shorten-mode">大數字顯示方式: 英文 (到無限)</button>
+                    <button onclick="save(game)" class="save">儲存</button>
+                </div>
+            </div>
+            <button class="open-fp"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+        <div class="sidebar">
+            <button id="shop" data-hover-text="購買素材，提升星塵生產速度">商店</button>
+            <button id="craft-to-sparkles" data-hover-text="用星塵合成閃，更有價值">合成閃</button>
+            <button id="speed-for-mult" data-hover-text="把速度轉成倍率，減少電腦卡頓影響 (把生產時間縮短買滿即可解鎖)" disabled>速度轉倍率</button>
+            <button id="rebirth" data-hover-text="重置部分進度以增加效率">重生</button>
+            <button id="settings">設定</button>
+        </div>
+        <button class="open-sb" onclick="toggleSidebar()">
+            <i class="fa-solid fa-list"></i>
+        </button>
+    </div>
+    <div class="notif">
+        嗨
+    </div>
+    <div class="dialogue modal">
+        <div class="content">
+            <img src="../images/characters/bob.png" alt="bob">
+            <div class="text-box">
+                <h1 class="name">Bob</h1>
+                <div class="dialogue-text">
+                    obliterating the economy is the right thing to do.
+                </div>
+            </div>
+        </div>
+        <b class="white">
+            點擊任何地方來繼續 (或按Enter鍵，按住可以快速跳過)
+        </b>
+    </div>
+</body>
+
+</html>

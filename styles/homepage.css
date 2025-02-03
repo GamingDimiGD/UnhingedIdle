@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+    color-scheme: light dark;
+    --main: #003c00;
+    --accent: light-dark(#00ff00, #005c00);
+    --bg: #003c00;
+    --panel: light-dark(#ffffff, #111111);
+    --sidebar: light-dark(#eeeeee, #222222);
+    --text: light-dark(#000000, #ffffff);
+    --text2: light-dark(#ffffff, #000000);
+    --button-text: #ffffff;
+    --t: #003c003c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: background 0.2s ease-in-out;
+    transition: all 0.2s ease;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+}
+
+button {
+    padding: 2px 7px;
+    font-size: 1rem;
+    border: none;
+    background: var(--main);
+    border-radius: 4px;
+    font-weight: 700;
+    color: var(--button-text);
+    cursor: pointer;
+}
+
+
+button:hover {
+    background: var(--accent);
+    color: var(--button-text);
+}
+
+button[disabled] {
+    background: var(--t);
+    cursor: not-allowed;
+}
+
+.button[disabled].hover {
+    background: var(--t);
+}
+
+.panel {
+    background: var(--panel);
+    width: 90%;
+    height: 90%;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    z-index: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    padding: 10px;
+    background: var(--sidebar);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.buttons button {
+    font-size: 1.5rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+}
+
+.buttons button::before {
+    content: '';
+    width: 0;
+    height: 100%;
+    background: #00ff00;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease, height 0.3s ease;
+    border-radius: 4px;
+    z-index: -1;
+}
+
+.buttons button:hover::before {
+    width: 100%;
+    height: 100%;
+    animation: chroma 2s linear infinite;
+}
+
+@keyframes chroma {
+    from {
+        filter: hue-rotate(0)
+    }
+    to {
+        filter: hue-rotate(360deg)
+    }
+}
+
+.title {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text);
+    animation: glitch 5s linear infinite;
+}
+
+@keyframes glitch {
+    9.9% {
+        color: var(--text);
+        font-size: 2.2rem;
+    }
+    10% {
+        color: #00ff00;
+        font-size: 100rem;
+    }
+    10.1% {
+        color: var(--text);
+        font-size: 2.2rem;
+    }
+    19.9% {
+        transform: translate(0, 0);
+    }
+    20% {
+        transform: translate(25px, 25px);
+    }
+    20.1% {
+        transform: translate(0, 0);
+    }
+    39.9% {
+        transform: translate(0, 0);
+        color: var(--text);
+    }
+    40% {
+        transform: translate(25px, -25px);
+        color: #2e368d;
+    }
+    40.1% {
+        transform: translate(-7px, -69px);
+        color: #ed8932;
+    }
+    40.2% {
+        transform: translate(0, 0);
+        color: var(--text);
+    }
+    49.9% {
+        width: auto;
+        height: auto;
+        transform: translate(0, 0);
+    }
+    50% {
+        width: 100%;
+        height: 100%;
+        transform: translate(-10px, 20px);
+    }
+    50.1% {
+        width: auto;
+        height: auto;
+        transform: translate(0, 0);
+    }
+    79.9% {
+        color: var(--text);
+        filter: hue-rotate(0);
+    }
+    80% {
+        color: #f00;
+        filter: hue-rotate(360deg);
+    }
+    80.1% {
+        color: var(--text);
+        filter: hue-rotate(0);
+    }
+    99.8% {
+        color: var(--text);
+        filter: hue-rotate(0);
+    }
+    99.9% {
+        color: #0f0;
+        filter: hue-rotate(360deg);
+    }
+    100% {
+        color: var(--text);
+        filter: hue-rotate(0);
+    }
+}
