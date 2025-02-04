@@ -497,3 +497,17 @@ button[disabled] {
     align-items: center;
     justify-content: center;
 }
+
+.rebirth.menu {
+    text-align: center;
+}
+
+.flush {
+    background-color: #f00;
+    color: #fff;
+}
+
+.flush:hover {
+    background-color: #fff;
+    color: #f00;
+}

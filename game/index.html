@@ -38,6 +38,7 @@
 
     <!-- scripts -->
     <script src="../scripts/usefulFunctions.js" defer></script>
+    <script src="../scripts/update.js" defer></script>
     <script src="../scripts/inputHandler.js" defer></script>
     <script src="../scripts/script.js" defer></script>
     <script src="../scripts/news.js" defer></script>
@@ -70,7 +71,7 @@
             <div class="shop menu show">
                 <h1>商店</h1>
                 <div class="shop-items">
-                    
+
                 </div>
             </div>
             <div class="craft-to-sparkles menu">
@@ -89,13 +90,13 @@
         takeStardust(os)
         giveSparkles(os/100)
         ">合成全部!</button>
-                <button onclick="toggleAutoCraft()" disabled class="auto-sparkles-button">自動合成: 關</button>
+                <button onclick="toggleAutoCraft()" disabled class="auto-sparkles-button">自動合成一半: 關</button>
                 <button onclick="toggleAutoCraftAll()" disabled class="auto-craft-all">自動合成全部: 關</button>
                 <h2>星塵升級</h2>
                 <div class="sd-upgrade-items">
-                    
+
                 </div>
-                
+
             </div>
             <div class="speed-for-mult menu">
                 <h1>速度轉倍率</h1>
@@ -114,14 +115,15 @@
                     <button onclick="sfm(200)">2秒<br>200倍</button>
                 </div>
                 <div class="enter-sfm-ratio">
-                    <input type="number" placeholder="輸入倍率 1~1000秒" class="change-sfm-input" min="1" max="1000"> <button class="submit-sfm" onclick="sfm($('.change-sfm-input').val())">更改!</button>
+                    <input type="number" placeholder="輸入倍率 1~1000秒" class="change-sfm-input" min="1" max="1000"> <button
+                        class="submit-sfm" onclick="sfm($('.change-sfm-input').val())">更改!</button>
                 </div>
             </div>
             <div class="rebirth menu">
                 <h1>重生</h1>
-                <h2>當你達到<b class="rebirth-requirement">x</b>閃時，可以轉生，會重置你的星塵、閃、商店跟星塵升級。</h2>
-                <h3 class="rebirth-display">轉生次數: 0<br>轉生分數: 0</h3>
-                <button class="rebirth-button">重生!</button>
+                <h2>當你得到的閃達到<b class="rebirth-requirement">x</b>時，可以重生，會重置你的星塵、閃、商店跟星塵升級。重生時，可以得到重生分數，它會增加你的倍率。</h2>
+                <h3 class="rebirth-display">重生次數: 0 重生分數: 0<br>次方加成: +0.00次 倍率加成: +0倍</h3>
+                <button class="rebirth-button">重生</button>
             </div>
             <div class="settings menu">
                 <h1>設定</h1>
@@ -129,6 +131,7 @@
                     <button onclick="toggleMode()" class="change-mode">切換顏色模式: 自動</button>
                     <button onclick="toggleShortenMode()" class="toggle-shorten-mode">大數字顯示方式: 英文 (到無限)</button>
                     <button onclick="save(game)" class="save">儲存</button>
+                    <button onclick="save()" class="flush">刪除一切</button>
                 </div>
             </div>
             <button class="open-fp"><i class="fa-solid fa-chevron-left"></i></button>

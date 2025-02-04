@@ -6,13 +6,14 @@ let genTime = 1000
 let game = $.jStorage.get('game') || {
     stardust: 0,
     sparkles: 10,
+    gainedSparkles: 10,
     mode: 'light dark',
     shortenMode: 'EN',
     items: initItems,
     upgrades: initUpgrades,
     autoCraft: false,
     autoCraftAll: false,
-    sfmMult: 1,
+    sfm: 1,
     rebirth: 0,
     rebirthPoints: 0,
 }
@@ -35,6 +36,7 @@ if (game.autoCraftAll) toggleAutoCraftAll(true)
 
 $.each($('.sidebar button'), (i, e) => {
     e.onclick = () => {
+        if (e.id === 'speed-for-mult' && shortenTimer.max > shortenTimer.ownedAmount) return showNotif('你沒買滿生產時間縮短!');
         $('.content .menu.show').removeClass('show')
         $('.open-sb')[0].click()
         openModal(e.id)
@@ -112,6 +114,8 @@ const generation = () => {
     sps = genStardust
     $('.delay').text(`延遲: ${delay / 1000}秒`)
     $('#speed-for-mult')[0].disabled = !(shortenTimer.ownedAmount >= shortenTimer.max)
+    $('.rebirth-display').html(`重生次數: ${game.rebirth}<br>重生分數: ${shorten(game.rebirthPoints)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}`)
+    $('.sparkles').text(shorten(game.sparkles))
 }
 
 let generationTimer = setInterval(generation, genTime)

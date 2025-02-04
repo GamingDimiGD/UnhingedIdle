@@ -29,7 +29,7 @@ class ShopItem {
             shopItems.push(this)
             initItems.push({
                 id: this.id,
-                amount: this.ownedAmount
+                amount: 0
             })
             let index = shopItems.indexOf(this)
             const buyF = () => {
@@ -103,7 +103,7 @@ let manipulateLuck = new ShopItem('控制運氣', 1e50, '可使自己的運氣�
 
 let timeMachine = new ShopItem('時光機', 1e60, '可以穿越時空至古代與未來，使用恐龍與未來科技來製造閃', 'timeMachine', 1e55)
 
-let newUniverse = new ShopItem('創造新次元', 1e70, '可以製造一個新的次元來增加產量', 'newUniverse', 1e65)
+let newUniverse = new ShopItem('創造新次元', 1e70, '可以製造一個新的次元來增加產量 (圖片為新次元的大霹靂)', 'newUniverse', 1e65)
 
 let antimatterEnergy = new ShopItem('反物質能量', 1e80, '使用反物質能量來製造能量', 'antimatterEnergy', 1e75)
 
@@ -173,8 +173,8 @@ let autoSparkles = new Upgrade('自動合成閃', 1e5, '自動把星塵合成閃
 }, 1)
 
 let multiply = new Upgrade('星塵倍率', 200, '每等增加0.1倍', 'multiply', 0, 1, () => {
-    upgMult += 1
-    multiply.element.find('b').text(multiply.ownedAmount + '/' + multiply.max + ` (倍率: ${upgMult / 10})`)
+    upgMult = 10 + multiply.ownedAmount + game.rebirthPoints * 10
+    multiply.element.find('b').text(multiply.ownedAmount + '/' + multiply.max + ` (倍率: ${shorten(upgMult / 10)})`)
 }, 1e3)
 
 upgrades.forEach((upgrade, index) => {
@@ -183,7 +183,7 @@ upgrades.forEach((upgrade, index) => {
     upgrade.button.text(shorten(upgrade.currentPrice) + '星塵')
     initUpgrades.push({
         id: upgrade.id,
-        amount: upgrade.ownedAmount
+        amount: 0
     })
     for (let i = upgrade.ownedAmount; i > 0; i--) {
         upgrade.onBuy()

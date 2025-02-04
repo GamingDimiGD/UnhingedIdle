@@ -216,7 +216,7 @@ const toggleShortenMode = (m) => {
     shopItems.forEach(item => {
         item.button.text(shorten(item.currentPrice) + '閃')
     })
-    
+
     upgrades.forEach(item => {
         item.button.text(shorten(item.currentPrice) + '星塵')
     })
@@ -225,13 +225,25 @@ const toggleShortenMode = (m) => {
 }
 
 const save = (save) => {
+    if (!save) {
+        alertModal('確定刪除一切? 這個動作無法挽回!', [
+            {
+                text: '確定',
+                onclick: () => {
+                    $.jStorage.flush()
+                    window.location.reload()
+                }
+            }, '取消'
+        ])
+        return 'reset'
+    }
     $.jStorage.set('game', save)
     showNotif('自動儲存成功!', 0.5)
 }
 
 const toggleSidebar = () => {
     $('.sidebar').toggleClass('show')
-    $('.open-sb').html($('.sidebar').hasClass('show')?'<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-list"></i>')
+    $('.open-sb').html($('.sidebar').hasClass('show') ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-list"></i>')
 }
 
 $('.open-dp').on('click', () => {
@@ -253,7 +265,7 @@ let showNotif = (text, time = 5) => {
 
 const giveStardust = (amount) => {
     if (game.stardust >= Infinity) return;
-    if(amount + game.stardust > maxNum) return game.stardust = maxNum
+    if (amount + game.stardust > maxNum) return game.stardust = maxNum
     game.stardust = bigInt(game.stardust).add(amount)
     $('.stardust').text(shorten(game.stardust))
 }
@@ -269,7 +281,8 @@ const takeStardust = (amount) => {
 }
 
 const giveSparkles = (amount) => {
-    if(amount + game.sparkles > maxNum) return game.sparkles = maxNum
+    if (amount + game.sparkles > maxNum) return game.sparkles = maxNum
+    game.gainedSparkles += amount
     game.sparkles += amount
     $('.sparkles').text(shorten(game.sparkles))
 }
@@ -423,6 +436,9 @@ const isMobile = () => {
 
 const shorten = (num) => {
     let shortenedNum = num
+    if (!num && isNaN(num)) return shortenedNum;
+    if (typeof num.value === 'bigint') shortenedNum = parseInt(num.value)
+    else if (Math.floor(num) !== num) return num
     if (game.shortenMode === "EN") {
         $.each(suffixesEN, (i, suffix) => {
             if (Math.abs(num) >= 10 ** (3 + 3 * (i + 1)) && Math.abs(num) < 10 ** (6 + 3 * (i + 1))) {
@@ -436,7 +452,7 @@ const shorten = (num) => {
             }
         })
     } else if (num >= 1e6 || (game.shortenMode === 'CH' && num >= 1e72)) {
-        shortenedNum = numeral(num).format('0.00e+0').replaceAll('+','')
+        shortenedNum = numeral(num).format('0.00e+0').replaceAll('+', '')
     }
     return shortenedNum
 }
@@ -452,22 +468,22 @@ const shortenCH = (num) => {
 }
 
 const toggleAutoCraft = (e) => {
-    if(game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
+    if (game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
     autoSparklesOwned = e || !autoSparklesOwned;
-    $('.auto-sparkles-button').text('自動合成: ' + (autoSparklesOwned?'開':'關'))
+    $('.auto-sparkles-button').text('自動合成一半: ' + (autoSparklesOwned ? '開' : '關'))
     game.autoCraft = autoSparklesOwned
     return autoSparklesOwned;
 }
 const toggleAutoCraftAll = (e) => {
-    if(game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
+    if (game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
     autoCraftAllSparkles = e || !autoCraftAllSparkles;
-    $('.auto-craft-all').text('自動合成全部: ' + (autoCraftAllSparkles?'開':'關'))
+    $('.auto-craft-all').text('自動合成全部: ' + (autoCraftAllSparkles ? '開' : '關'))
     game.autoCraftAll = autoCraftAllSparkles
     return autoCraftAllSparkles;
 }
 
 const sfm = (mult = game.sfm) => {
-    if (!(shortenTimer.ownedAmount === shortenTimer.max)) return; 
+    if (!(shortenTimer.ownedAmount === shortenTimer.max)) return;
     if (mult > 1000) mult = 1000
     if (mult < 1) mult = 1
     genTime = mult * 10
