@@ -1,3 +1,3 @@
-const version = 'BETA-20250204'
+const version = 'BETA-20250205'
 
 const versionHistory = []

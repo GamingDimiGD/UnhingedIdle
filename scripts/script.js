@@ -116,6 +116,11 @@ const generation = () => {
     $('#speed-for-mult')[0].disabled = !(shortenTimer.ownedAmount >= shortenTimer.max)
     $('.rebirth-display').html(`重生次數: ${game.rebirth}<br>重生分數: ${shorten(game.rebirthPoints)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}`)
     $('.sparkles').text(shorten(game.sparkles))
+    let p = (game.sparkles / maxNum) ** 0.005 * 100
+    if (game.sparkles < 1e8) p = (game.sparkles / 1e8) ** 0.05 * 3.15
+    if (p > 100) p = 100
+    if (p < 0) p = 0
+    $('.bg-img')[0].style.height = `${p}%`
 }
 
 let generationTimer = setInterval(generation, genTime)

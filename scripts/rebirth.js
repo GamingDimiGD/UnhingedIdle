@@ -1,4 +1,8 @@
-const calcRbp = (x) => Math.floor(x**0.125)
+const calcRbp = (x) => {
+    let r = Math.floor((x / rebirthAmount) * 10)
+    if(r > 1e8) r = 1e8 + r**0.5
+    return r
+}
 
 const rebirthAmount = 1e8
 $('.rebirth-requirement').text(shorten(rebirthAmount));
