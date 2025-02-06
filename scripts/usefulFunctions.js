@@ -265,7 +265,7 @@ let showNotif = (text, time = 5) => {
 
 const giveStardust = (amount) => {
     if (game.stardust >= Infinity) return;
-    if (amount + game.stardust > maxNum) return game.stardust = maxNum
+    if (isNaN(amount)) return;
     game.stardust = bigInt(game.stardust).add(amount)
     $('.stardust').text(shorten(game.stardust))
 }

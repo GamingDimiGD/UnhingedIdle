@@ -1,3 +1,5 @@
-const version = 'BETA-20250205'
+const version = 'BETA-20250206'
 
 const versionHistory = []
+
+$('.version').text(version)

@@ -1,6 +1,6 @@
 const calcRbp = (x) => {
     let r = Math.floor((x / rebirthAmount) * 10)
-    if(r > 1e8) r = 1e8 + r**0.5
+    if(r > 1e8) r = Math.floor(1e8 + r**0.6)
     return r
 }
 
@@ -48,7 +48,7 @@ upgMult = 10 + multiply.ownedAmount + game.rebirthPoints * 10
 
 $('.rebirth-button').on('click', () => {
     if (game.gainedSparkles <= rebirthAmount) return showNotif('閃不夠!')
-    alertModal('確定重生? 你會得到' + shorten(calcRbp(game.gainedSparkles)) + '重生分數!', [
+    alertModal('確定重生?' + (calcRbp(game.gainedSparkles)>1e8?' 你能得到的重生分數已超過' + shorten(1e8) + '，超過的部分會被減少。':""), [
         {
             text: '確定',
             onclick: rebirth,
@@ -57,4 +57,4 @@ $('.rebirth-button').on('click', () => {
     ])
 })
 
-$('.rebirth-display').html(`重生次數: ${game.rebirth}<br>重生分數: ${shorten(game.rebirthPoints)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}`)
+$('.rebirth-display').html(`重生次數: ${game.rebirth}<br>重生分數: ${shorten(game.rebirthPoints)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}<br>重生可得到的重生分數: ${shorten(calcRbp(game.gainedSparkles))}`)

@@ -42,6 +42,7 @@
     <script src="../scripts/inputHandler.js" defer></script>
     <script src="../scripts/script.js" defer></script>
     <script src="../scripts/news.js" defer></script>
+    <script src="../scripts/achievements.js" defer></script>
     <script src="../scripts/shop.js" defer></script>
     <script src="../scripts/rebirth.js" defer></script>
     <title>Unhinged Idle</title>
@@ -52,7 +53,7 @@
     <div class="hover-text"></div>
     <div class="fixed-panel">
         <h1 class="title">Unhinged Idle</h1>
-        <img src="../images/generator.png" alt="Sparkles generator" class="generator" data-hover-text="星塵製造機">
+        <img src="../images/generator.png" alt="Sparkles generator" class="generator" data-hover-text="星塵製造機" onclick="giveAch('clicker')">
         <div class="info">
             <div class="sdd">
                 <b class="stardust">0</b> 粒星塵
@@ -122,9 +123,15 @@
             </div>
             <div class="rebirth menu">
                 <h1>重生</h1>
-                <h2>當你得到的閃達到<b class="rebirth-requirement">x</b>時，可以重生，會重置你的星塵、閃、商店跟星塵升級。重生時，可以得到重生分數，它會增加你的倍率。</h2>
+                <h2>當你得到的閃達到<b class="rebirth-requirement">x</b>時，可以重生，會重置你的星塵、閃、商店跟星塵升級。重生時，可以得到重生分數，並增加你的倍率。</h2>
                 <h3 class="rebirth-display">重生次數: 0 重生分數: 0<br>次方加成: +0.00次 倍率加成: +0倍</h3>
                 <button class="rebirth-button">重生</button>
+            </div>
+            <div class="achievements menu">
+                <h1>成就</h1>
+                <div class="ach-display">
+                    你還沒有任何成就!
+                </div>
             </div>
             <div class="settings menu">
                 <h1>設定</h1>
@@ -142,6 +149,7 @@
             <button id="craft-to-sparkles" data-hover-text="用星塵合成閃，更有價值">合成閃</button>
             <button id="speed-for-mult" data-hover-text="把速度轉成倍率，減少電腦卡頓影響 (把生產時間縮短買滿即可解鎖)" disabled>速度轉倍率</button>
             <button id="rebirth" data-hover-text="重置部分進度以增加效率">重生</button>
+            <button id="achievements" data-hover-text="解成就可以得到加成!">成就</button>
             <button id="settings">設定</button>
         </div>
         <button class="open-sb" onclick="toggleSidebar()">

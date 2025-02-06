@@ -242,10 +242,12 @@ let articleLoop = setInterval(() => {
     let currentPart = newsArticles.find((a, i) => {
         return !newsArticles[i + 1] || (sps >= a.sps && newsArticles[i + 1].sps > sps)
     })
-    while (!currentPart.req()) currentPart = newsArticles[newsArticles.indexOf(currentPart - 1)];
-    let news = currentPart.articles[rng(currentPart.articles.length - 1)]
-    if (sps > 1e200) {
-        news = glitch(50)
+    if (currentPart) {
+        while (!currentPart.req()) currentPart = newsArticles[newsArticles.indexOf(currentPart) - 1];
+        let news = currentPart.articles[rng(currentPart.articles.length - 1)]
+        if (sps > 1e200) {
+            news = glitch(50)
+        }
+        $('.news').html(news)
     }
-    $('.news').html(news)
 }, 5000)

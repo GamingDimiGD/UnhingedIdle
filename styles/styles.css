@@ -524,3 +524,23 @@ button[disabled] {
     background-repeat: repeat;
     background-size: 250px;
 }
+
+.ach-display {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.achievement {
+    width: 100%;
+}
+
+.achievement, .achievement div {
+    background-color: var(--t);
+    padding: 5px;
+    border-radius: 5px;
+}
