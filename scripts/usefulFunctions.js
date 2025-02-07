@@ -49,13 +49,15 @@ const suffixesCH = [
     '億', '兆', '京', '垓', '秭', '穰', '溝', '澗', '正', '載', '極', '恆河沙', '阿僧祇', '那由他', '不可思議', '無量大數'
 ]
 
-let shopItems = []
-let upgrades = []
+let shopItems = [],
+    upgrades = [],
+    rpUpgrades = []
 
 let autoSparklesOwned,
     upgMult = 10,
     autoCraftAllSparkles,
-    power = 100
+    power = 100,
+    absi = false
 
 // initialization
 document.querySelector(".dialogue .content img").src = null
@@ -224,6 +226,13 @@ const toggleShortenMode = (m) => {
     $('.toggle-shorten-mode').text('大數字表示方式: ' + modeText)
 }
 
+const toggleABSI = (e) => {
+    if (game.rpUpgrades.find(r => r.id === 'autoBuyShopItems').amount <= 0) return;
+    game.autoBuyShopItems = e === undefined ? !game.autoBuyShopItems:e
+    absi = game.autoBuyShopItems
+    return absi;
+}
+
 const save = (save) => {
     if (!save) {
         alertModal('確定刪除一切? 這個動作無法挽回!', [
@@ -264,7 +273,7 @@ let showNotif = (text, time = 5) => {
 }
 
 const giveStardust = (amount) => {
-    if (game.stardust >= Infinity) return;
+    if (game.stardust >= Infinity || amount === Infinity || game.stardust === Infinity) return;
     if (isNaN(amount)) return;
     game.stardust = bigInt(game.stardust).add(amount)
     $('.stardust').text(shorten(game.stardust))
@@ -291,6 +300,20 @@ const takeSparkles = (amount) => {
     if (game.sparkles >= amount) {
         game.sparkles -= amount
         $('.sparkles').text(shorten(game.sparkles))
+        return true
+    } else {
+        return false
+    }
+}
+
+const rrd = () => {
+    $('.rebirth-display').html(`重生次數: ${game.rebirth}<br>RP: ${shorten(game.rp)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}<br>重生可得到的RP: ${shorten(calcRbp(game.gainedSparkles))}`)
+}
+
+const takeRP = (amount) => {
+    if (game.rp >= amount) {
+        game.rp -= amount
+        rrd()
         return true
     } else {
         return false
@@ -469,14 +492,14 @@ const shortenCH = (num) => {
 
 const toggleAutoCraft = (e) => {
     if (game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
-    autoSparklesOwned = e || !autoSparklesOwned;
+    autoSparklesOwned = e === false ? e : !autoSparklesOwned;
     $('.auto-sparkles-button').text('自動合成一半: ' + (autoSparklesOwned ? '開' : '關'))
     game.autoCraft = autoSparklesOwned
     return autoSparklesOwned;
 }
 const toggleAutoCraftAll = (e) => {
     if (game.upgrades.find(i => i.id === 'autoSparkles').amount <= 0) return showNotif('你沒有買自動合成閃!')
-    autoCraftAllSparkles = e || !autoCraftAllSparkles;
+    autoCraftAllSparkles = e === false ? e : !autoCraftAllSparkles;
     $('.auto-craft-all').text('自動合成全部: ' + (autoCraftAllSparkles ? '開' : '關'))
     game.autoCraftAll = autoCraftAllSparkles
     return autoCraftAllSparkles;

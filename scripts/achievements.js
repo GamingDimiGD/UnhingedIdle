@@ -1,5 +1,10 @@
 const achievements = [
     {
+        name: '這不是點擊遊戲!',
+        description: '點一下星塵製造機',
+        id: 'clicker',
+    },
+    {
         name: '愛迪生',
         description: '使用燈泡來製造星塵',
         id: 'lightbulb',
@@ -45,19 +50,38 @@ const achievements = [
         id: '1e16sd',
     },
     {
-        name: '這不是點擊遊戲!',
-        description: '點一下星塵製造機',
-        id: 'clicker',
+        name: '不會停的',
+        description: '重生1次',
+        id: 'rebirth',
     },
+    {
+        name: '不死之生',
+        description: '重生10次',
+        id: '10rebirth',
+    },
+    {
+        name: '完全自動化',
+        description: '使用自動購買商店商品',
+        id: 'auto',
+    },
+    {
+        name: '這就是... 結局嗎?',
+        description: '達到無限閃',
+        id: 'infinity',
+    }
 ]
 
 const checkAchievements = () => {
     if (game.achievements.length > 0) $('.ach-display').empty();
+    game.achievements.sort((a, b) => {
+        return achievements.indexOf(achievements.find(c => c.id === a)) - achievements.indexOf(achievements.find(c => c.id === b))
+    })
     game.achievements.forEach(a => {
         const ach = achievements.find(b => b.id === a)
+        if(!ach) return game.achievements = game.achievements.filter(b => b !== a)
         const achDiv = $('<div class="achievement"></div>')
         achDiv.append(`<div>
-                        <h3>${ach.name}</h3>
+                        <h3>#${achievements.indexOf(ach) + 1} ${ach.name}</h3>
                         ${ach.description}
                     </div>`)
         $('.ach-display').append(achDiv)

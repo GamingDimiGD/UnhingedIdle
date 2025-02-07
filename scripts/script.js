@@ -1,9 +1,10 @@
 console.log('hello world!')
 let initItems = []
 let initUpgrades = []
+let initRPUpgrades = []
 let genTime = 1000
 
-let game = $.jStorage.get('game') || {
+let emptySave = {
     stardust: 0,
     sparkles: 10,
     gainedSparkles: 10,
@@ -16,7 +17,20 @@ let game = $.jStorage.get('game') || {
     sfm: 1,
     rebirth: 0,
     rebirthPoints: 0,
+    rp: 0,
+    rpUpgrades: initRPUpgrades,
+    autoBuyShopItems: false,
     achievements: [],
+}
+
+let game = $.jStorage.get('game') || { ...emptySave }
+
+if (Object.keys(game).length < Object.keys(emptySave).length) {
+    Object.keys(emptySave).forEach(key => {
+        if (!game.hasOwnProperty(key)) {
+            game[key] = emptySave[key]
+        }
+    })
 }
 
 if (!$.jStorage.get('game')) {
@@ -48,6 +62,7 @@ $('.sparkles').text(shorten(game.sparkles))
 
 toggleMode(game.mode)
 toggleShortenMode(game.shortenMode)
+toggleABSI(game.autoBuyShopItems)
 
 let autoSave = setInterval(() => {
     save(game)
@@ -85,6 +100,25 @@ const generation = () => {
             game.upgrades.find(it => it.id === item.id).amount = item.max
         }
     })
+    
+    $.each(rpUpgrades, (i, item) => {
+        if (!game.rpUpgrades.find(it => it.id === item.id)) {
+            game.rpUpgrades.push({
+                id: item.id,
+                amount: item.ownedAmount
+            })
+            return;
+        }
+        if (item.max < game.rpUpgrades.find(it => it.id === item.id).amount) {
+            game.rpUpgrades.find(it => it.id === item.id).amount = item.max
+        }
+    })
+
+    $.each(shopItems.reverse(), (i, item) => {
+        if (absi && item.currentPrice <= game.sparkles) {
+            item.button[0].click()
+        }
+    })
 
     let upgMulti = upgMult / 10
     let upgPower = power / 100
@@ -115,12 +149,24 @@ const generation = () => {
     sps = genStardust
     $('.delay').text(`延遲: ${delay / 1000}秒`)
     $('#speed-for-mult')[0].disabled = !(shortenTimer.ownedAmount >= shortenTimer.max)
-    $('.rebirth-display').html(`重生次數: ${game.rebirth}<br>重生分數: ${shorten(game.rebirthPoints)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}<br>重生可得到的重生分數: ${shorten(calcRbp(game.gainedSparkles))}`)
+    $('.rebirth-display').html(`重生次數: ${game.rebirth}<br>RP: ${shorten(game.rp)}<br>倍率加成: +${shorten(game.rebirthPoints)}倍<br>得到的閃(不會被花掉，但是重生會重置):${shorten(game.gainedSparkles)}<br>重生可得到的RP: ${shorten(calcRbp(game.gainedSparkles))}`)
     $('.sparkles').text(shorten(game.sparkles))
     let p = (bigInt(game.sparkles).value.toString().length / bigInt(maxNum).value.toString().length) * 100
     if (p > 100) p = 100
     if (p < 0 || game.sparkles < 10) p = 0
     $('.bg-img')[0].style.height = `${p}%`
+    rrd()
+    if (game.sparkles >= maxNum) {
+        clearInterval(generationTimer)
+        $('.sparkles').text('無限')
+        $('.stardust').text('無限')
+        $('.persecond').text('無限閃')
+        pd(4, '好')
+        pd(4, '你達到你的使命了')
+        pd(4, '恭喜你。')
+        dq()
+        giveAch('infinity')
+    }
 }
 
 let generationTimer = setInterval(generation, genTime)

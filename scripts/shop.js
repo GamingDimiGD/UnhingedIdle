@@ -1,4 +1,11 @@
-const pgf = (base, ownedAmount, power = 1.4) => Math.round(base * Math.pow(power, ownedAmount))
+const pgf = (base, ownedAmount, power = 1.4) => {
+    let r = Math.round(base * Math.pow(power, ownedAmount))
+    if (r > maxNum) {
+        if (absi) toggleABSI(false)
+        return maxNum
+    }
+    return r
+}
 
 const predictPriceSum = (base, ownedAmount, amount, power = 1.4) => {
     let price = base
@@ -43,6 +50,7 @@ class ShopItem {
                 } else if (shopItems[index + 1]) shopItems[index + 1].element.show()
             }
             this.button[0].onclick = () => {
+                if (game.sparkles >= maxNum) return;
                 if (!takeSparkles(this.currentPrice)) return showNotif('你的閃不足!');
                 this.ownedAmount++
                 buyF()
@@ -125,13 +133,32 @@ class Upgrade extends ShopItem {
         this.max = max
         let itemElement = `<div class="item" data-hover-text="${description}"><img src="../images/items/${this.id}.png" alt="${this.id}"><div class="item-info"><h3>${name}</h3><b>${this.ownedAmount}/${this.max}</b><br><button class="${this.id}-button buy">${shorten(this.currentPrice)}星塵</button></button><button class="buy10">買10個</button><button class="buy100">買100個</button></div></div>`
         this.element = $(itemElement)
-        $('.sd-upgrade-items').append(this.element)
-        upgrades.push(this)
-        if (game.upgrades.find(e => e.id === this.id)) this.ownedAmount = game.upgrades.find(e => e.id === this.id).amount
-        else this.ownedAmount = 0
+        if (si === 2) {
+            $('.rp-upgrade-items').append(this.element)
+            rpUpgrades.push(this)
+            if (game.rpUpgrades.find(e => e.id === this.id)) this.ownedAmount = game.rpUpgrades.find(e => e.id === this.id).amount
+            else this.ownedAmount = 0
+        } else {
+            $('.sd-upgrade-items').append(this.element)
+            upgrades.push(this)
+            if (game.upgrades.find(e => e.id === this.id)) this.ownedAmount = game.upgrades.find(e => e.id === this.id).amount
+            else this.ownedAmount = 0
+        }
         this.priceGrowthRate = priceGrowthRate
         this.button = this.element.find('.buy')
-        this.button[0].onclick = () => {
+        if (si === 2) {
+            this.button[0].onclick = () => {
+                if (this.ownedAmount === this.max) return showNotif('已達到最高等級!');
+                if (!takeRP(this.currentPrice)) return showNotif('你的RP不足!');
+                this.ownedAmount++
+                this.currentPrice = this.ownedAmount !== 0 ? pgf(this.priceBase, this.ownedAmount, this.priceGrowthRate) : this.priceBase;
+                this.element.find('b').text(this.ownedAmount + '/' + this.max)
+                this.button.text(shorten(this.currentPrice) + 'RP')
+                game.rpUpgrades.find(i => i.id === this.id).amount = this.ownedAmount
+                this.onBuy()
+            }
+        } else this.button[0].onclick = () => {
+            if (game.stardust >= maxNum) return;
             if (this.ownedAmount === this.max) return showNotif('已達到最高等級!');
             if (!takeStardust(this.currentPrice)) return showNotif('你的星塵不足!');
             this.ownedAmount++
@@ -161,7 +188,10 @@ let shortenTimer = new Upgrade('生產時間縮短', 100, '從1秒開始減少�
     clearInterval(generationTimer)
     generationTimer = setInterval(generation, genTime)
     shortenTimer.element.find('b').text(shortenTimer.ownedAmount + '/' + shortenTimer.max + ' (現在: ' + genTime / 1e3 + '秒)')
-    if (shortenTimer.ownedAmount >= shortenTimer.max) $('#speed-for-mult')[0].disabled = false
+    if (shortenTimer.ownedAmount >= shortenTimer.max) {
+        $('#speed-for-mult')[0].disabled = false
+        giveAch('maxShortenTimer')
+    }
     else $('#speed-for-mult')[0].disabled = true
     giveAch('huh')
 }, 198)
@@ -190,7 +220,6 @@ upgrades.forEach((upgrade, index) => {
         upgrade.onBuy()
     }
 })
-
 
 $('#speed-for-mult')[0].disabled = shortenTimer.ownedAmount >= shortenTimer.max
 

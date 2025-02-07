@@ -443,12 +443,14 @@ button[disabled] {
 }
 
 .shop-items,
-.sd-upgrade-items {
+.sd-upgrade-items,
+.rp-upgrade-items {
     width: 100%;
     display: flex;
     gap: 10px;
     flex-direction: column;
     justify-content: center;
+    text-align: left;
 }
 
 .item {
@@ -543,4 +545,8 @@ button[disabled] {
     background-color: var(--t);
     padding: 5px;
     border-radius: 5px;
+}
+
+.rp-upg-title {
+    margin: 10px;
 }
