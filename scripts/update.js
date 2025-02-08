@@ -13,6 +13,8 @@ const updateInfo = [
     }
 ]
 
+$('.version').text(version)
+
 const umud = $('.version-history')[0]
 
 updateInfo.forEach(u => {
@@ -22,5 +24,3 @@ updateInfo.forEach(u => {
         umud.innerHTML += `<p>${d.text}</p><br/>`
     })
 })
-
-$('.version').text(version)
