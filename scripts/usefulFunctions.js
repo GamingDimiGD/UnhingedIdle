@@ -33,7 +33,19 @@ let characters = [
         id: 'bob',
         statusMaxIndex: 0,
         idleIndex: 0,
-    }
+    },
+    {
+        name: '路人甲',
+        id: 'someoneA',
+        statusMaxIndex: 0,
+        idleIndex: 0,
+    },
+    {
+        name: '路人乙',
+        id: 'someoneB',
+        statusMaxIndex: 0,
+        idleIndex: 0,
+    },
 ];
 let dialogueQueue = [];
 
@@ -64,6 +76,18 @@ document.querySelector(".dialogue .content img").src = null
 characters.forEach((c) => (c.statusAmount = c.statusMaxIndex + 1));
 
 // global functions
+
+const sfx = (sound, speed, keeppitch) => {
+    sound = '../sfx/' + sound + '.mp3'
+    let audio = new Audio(sound)
+    if(!speed) speed = 1
+    audio.playbackRate = speed;
+    audio.mozPreservesPitch = keeppitch;
+    audio.preservesPitch = keeppitch;
+    audio.play()
+    return { onLoad: (callback) => audio.onloadeddata = callback }
+}
+
 const alertModal = (text, options) => {
     const modal = document.createElement("div");
     modal.classList.add("modal");
@@ -227,7 +251,7 @@ const toggleShortenMode = (m) => {
 }
 
 const toggleABSI = (e) => {
-    if (game.rpUpgrades.find(r => r.id === 'autoBuyShopItems').amount <= 0) return;
+    if (game.rpUpgrades.find(r => r.id === 'autoBuyShopItems') && game.rpUpgrades.find(r => r.id === 'autoBuyShopItems').amount <= 0) return;
     game.autoBuyShopItems = e === undefined ? !game.autoBuyShopItems:e
     absi = game.autoBuyShopItems
     return absi;
@@ -507,6 +531,7 @@ const toggleAutoCraftAll = (e) => {
 
 const sfm = (mult = game.sfm) => {
     if (!(shortenTimer.ownedAmount === shortenTimer.max)) return;
+    if (game.sparkles >= maxNum) return showNotif('但是沒有用...');
     if (mult > 1000) mult = 1000
     if (mult < 1) mult = 1
     genTime = mult * 10

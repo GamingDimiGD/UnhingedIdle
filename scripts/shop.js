@@ -47,10 +47,18 @@ class ShopItem {
                 this.onBuy()
                 if (this.ownedAmount < 3 && shopItems[index + 1]) {
                     shopItems[index + 1].element.hide()
-                } else if (shopItems[index + 1]) shopItems[index + 1].element.show()
+                } else if (this.ownedAmount >= 3 && shopItems[index + 1]) {
+                    shopItems.sort((a, b) => {
+                        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
+                    })
+                    game.items.sort((a, b) => {
+                        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
+                    })
+                    shopItems[index + 1].element.show()
+                }
             }
             this.button[0].onclick = () => {
-                if (game.sparkles >= maxNum) return;
+                if (game.sparkles >= maxNum) return showNotif('但是沒有用...')
                 if (!takeSparkles(this.currentPrice)) return showNotif('你的閃不足!');
                 this.ownedAmount++
                 buyF()
@@ -150,6 +158,7 @@ class Upgrade extends ShopItem {
             this.button[0].onclick = () => {
                 if (this.ownedAmount === this.max) return showNotif('已達到最高等級!');
                 if (!takeRP(this.currentPrice)) return showNotif('你的RP不足!');
+                if (game.sparkles >= maxNum) return showNotif('但是沒有用...')
                 this.ownedAmount++
                 this.currentPrice = this.ownedAmount !== 0 ? pgf(this.priceBase, this.ownedAmount, this.priceGrowthRate) : this.priceBase;
                 this.element.find('b').text(this.ownedAmount + '/' + this.max)
@@ -158,7 +167,7 @@ class Upgrade extends ShopItem {
                 this.onBuy()
             }
         } else this.button[0].onclick = () => {
-            if (game.stardust >= maxNum) return;
+            if (game.stardust >= maxNum) return showNotif('但是沒有用...');
             if (this.ownedAmount === this.max) return showNotif('已達到最高等級!');
             if (!takeStardust(this.currentPrice)) return showNotif('你的星塵不足!');
             this.ownedAmount++

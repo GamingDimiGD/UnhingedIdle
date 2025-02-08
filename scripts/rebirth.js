@@ -31,7 +31,8 @@ const rebirth = () => {
             shopItems[index + 1].element.hide()
         }
     })
-    if (!game.rpUpgrades.find(r => r.id === 'dontResetSDUpgradesOnRB')) {
+    lightbulb.element.show()
+    if (game.rpUpgrades.find(r => r.id === 'dontResetSDUpgradesOnRB').amount <= 0) {
         game.sfm = 1
         genTime = 1000
         clearInterval(generationTimer)

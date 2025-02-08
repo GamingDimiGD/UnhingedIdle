@@ -1,5 +1,10 @@
 const achievements = [
     {
+        name: '查看作者',
+        description: '看一下作者做什麼',
+        id: 'viewDev',
+    },
+    {
         name: '這不是點擊遊戲!',
         description: '點一下星塵製造機',
         id: 'clicker',
@@ -65,6 +70,11 @@ const achievements = [
         id: 'auto',
     },
     {
+        name: '估狗',
+        description: '得到' + shorten(1e100) + '閃',
+        id: 'googol',
+    },
+    {
         name: '這就是... 結局嗎?',
         description: '達到無限閃',
         id: 'infinity',
@@ -72,6 +82,7 @@ const achievements = [
 ]
 
 const checkAchievements = () => {
+    $('.ach-info').text(`${game.achievements.length}/${achievements.length}個成就正在加持你基礎星塵產量 (目前: ${(1 * (upgMult/10) + game.achievements.length) ** (power/100) * game.sfm}星塵)`)
     if (game.achievements.length > 0) $('.ach-display').empty();
     game.achievements.sort((a, b) => {
         return achievements.indexOf(achievements.find(c => c.id === a)) - achievements.indexOf(achievements.find(c => c.id === b))

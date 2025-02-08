@@ -52,6 +52,7 @@ if (game.autoCraftAll) toggleAutoCraftAll(true)
 $.each($('.sidebar button'), (i, e) => {
     e.onclick = () => {
         if (e.id === 'speed-for-mult' && shortenTimer.max > shortenTimer.ownedAmount) return showNotif('你沒買滿生產時間縮短!');
+        if (e.id === 'about') giveAch('viewDev')
         $('.content .menu.show').removeClass('show')
         $('.open-sb')[0].click()
         openModal(e.id)
@@ -100,7 +101,7 @@ const generation = () => {
             game.upgrades.find(it => it.id === item.id).amount = item.max
         }
     })
-    
+
     $.each(rpUpgrades, (i, item) => {
         if (!game.rpUpgrades.find(it => it.id === item.id)) {
             game.rpUpgrades.push({
@@ -122,7 +123,7 @@ const generation = () => {
 
     let upgMulti = upgMult / 10
     let upgPower = power / 100
-    let genStardust = (1 * upgMulti) ** upgPower * game.sfm
+    let genStardust = (1 * upgMulti + game.achievements.length) ** upgPower * game.sfm
     giveStardust(Math.round(genStardust))
     game.items.forEach(item => {
         let stardustRate = shopItems.find(i => i.id === item.id).stardustRate
@@ -156,11 +157,25 @@ const generation = () => {
     if (p < 0 || game.sparkles < 10) p = 0
     $('.bg-img')[0].style.height = `${p}%`
     rrd()
+    if (game.stardust > 1e100 && !game.achievements.includes('googol')) {
+        pd(5, '喂! 停了!')
+        pd(5, '你會把這個世界淹沒!')
+        pd(6, '許多國家都被你淹沒了!')
+        pd(4, '喔 然後哩')
+        pd(4, '　', {
+            sound: 'pewpew'
+        })
+        pd(4, 'ok 解決了')
+        pd(4, '繼續吧')
+        dq()
+        giveAch('googol')
+    }
     if (game.sparkles >= maxNum) {
         clearInterval(generationTimer)
         $('.sparkles').text('無限')
         $('.stardust').text('無限')
         $('.persecond').text('無限閃')
+        if (game.achievements.includes('infinity')) return showNotif('但是沒有用...')
         pd(4, '好')
         pd(4, '你達到你的使命了')
         pd(4, '恭喜你。')

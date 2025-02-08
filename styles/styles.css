@@ -61,7 +61,7 @@ body {
     height: 80%;
     min-height: 280px;
     object-fit: cover;
-    object-position: 12% 12%;
+    object-position: 50% 12%;
 }
 
 .info {
@@ -549,4 +549,38 @@ button[disabled] {
 
 .rp-upg-title {
     margin: 10px;
+}
+
+.version-history {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% - 20px);
+    height: 100%;
+    background: var(--t);
+    border-radius: 5px;
+}
+
+.version-history h2 {
+    padding: 5px;
+    margin-bottom: 3px;
+    background: var(--t);
+    width: 100%;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.about-stuff img {
+    animation: rotateY 5s linear infinite;
+}
+
+@keyframes rotateY {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
 }

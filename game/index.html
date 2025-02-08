@@ -129,13 +129,21 @@
                 <button class="rebirth-button">重生</button>
                 <h2 class="rp-upg-title">重生升級</h2>
                 <div class="rp-upgrade-items">
-                    
+
                 </div>
             </div>
             <div class="achievements menu">
                 <h1>成就</h1>
+                <h2 class="ach-info">0/0個成就正在加持你基礎星塵產量 (+0星塵)</h2>
                 <div class="ach-display">
                     你還沒有任何成就!
+                </div>
+            </div>
+            <div class="update-info menu">
+                <h1>更新資訊</h1>
+                <h2 class="version"></h2>
+                <div class="version-history">
+
                 </div>
             </div>
             <div class="settings menu">
@@ -147,6 +155,24 @@
                     <button onclick="save()" class="flush">刪除一切</button>
                 </div>
             </div>
+            <div class="about menu">
+                <h1>關於</h1>
+                <h3>
+                    開發者: 遊戲迪米
+                </h3>
+                <p>
+                    你知道嗎? 這個遊戲是我第二個大型遊戲!
+                </p>
+                <p>
+                    有意見或建議可以<a target="_blank" href="https://discord.gg/Kb9WKKF6d6">加入Discord伺服器</a>!
+                </p>
+                <p>
+                    如果要玩其他遊戲可以到<a target="_blank" href="https://gamingdimigd.github.io/DimiGameCenter/">迪米遊戲中心</a>來找其他遊戲!
+                </p>
+                <div class="about-stuff">
+                    <img src="../images/GD Logos with hands/IMG_0823.PNG" alt="GD spinning" data-hover-text="欸押韻欸">
+                </div>
+            </div>
             <button class="open-fp"><i class="fa-solid fa-chevron-left"></i></button>
         </div>
         <div class="sidebar">
@@ -154,8 +180,10 @@
             <button id="craft-to-sparkles" data-hover-text="用星塵合成閃，更有價值">合成閃</button>
             <button id="speed-for-mult" data-hover-text="把速度轉成倍率，減少電腦卡頓影響 (把生產時間縮短買滿即可解鎖)" disabled>速度轉倍率</button>
             <button id="rebirth" data-hover-text="重置部分進度以增加效率">重生</button>
-            <button id="achievements" data-hover-text="解成就可以得到加成!">成就</button>
+            <button id="achievements" data-hover-text="解成就可以得到加成">成就</button>
+            <button id="update-info" data-hover-text="查看更新後增加什麼新東西">更新資訊</button>
             <button id="settings">設定</button>
+            <button id="about" data-hover-text="查看遊戲作者">關於</button>
         </div>
         <button class="open-sb" onclick="toggleSidebar()">
             <i class="fa-solid fa-list"></i>
