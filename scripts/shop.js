@@ -45,17 +45,6 @@ class ShopItem {
                 this.button.text(shorten(this.currentPrice) + '閃')
                 game.items.find(i => i.id === this.id).amount = this.ownedAmount
                 this.onBuy()
-                if (this.ownedAmount < 3 && shopItems[index + 1]) {
-                    shopItems[index + 1].element.hide()
-                } else if (this.ownedAmount >= 3 && shopItems[index + 1]) {
-                    shopItems.sort((a, b) => {
-                        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
-                    })
-                    game.items.sort((a, b) => {
-                        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
-                    })
-                    shopItems[index + 1].element.show()
-                }
             }
             this.button[0].onclick = () => {
                 if (game.sparkles >= maxNum) return showNotif('但是沒有用...')
@@ -129,11 +118,7 @@ let breakThe4thWall = new ShopItem('突破第四面牆', 1e120, '"我知道你�
 
 let math = new ShopItem('數學', 1e150, '利用數學的力量賺閃', 'math', 1e75, 0, () => giveAch('math'))
 
-shopItems.forEach((item, index) => {
-    if (item.ownedAmount < 3 && shopItems[index + 1]) {
-        shopItems[index + 1].element.hide()
-    }
-})
+shopItems.forEach(i => i.element.hide())
 
 class Upgrade extends ShopItem {
     constructor(name, priceBase, description, id, stardustRate = 0, si = 1, onBuy = () => { }, max, priceGrowthRate = 1.4) {

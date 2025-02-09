@@ -78,6 +78,13 @@ let timeLastFrame = [], delay = 0, sps;
 const generation = () => {
     game.items = game.items.filter(item => item.id && item.amount)
     game.upgrades = game.upgrades.filter(item => item.id && item.amount)
+    
+    shopItems.sort((a, b) => {
+        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
+    })
+    game.items.sort((a, b) => {
+        return initItems.indexOf(initItems.find(c => c.id === a.id)) - initItems.indexOf(initItems.find(c => c.id === b.id))
+    })
 
     $.each(shopItems, (i, item) => {
         item.displayText(`${item.ownedAmount}個 (每秒${shorten(Math.round((item.stardustRate * (upgMult / 10)) / ((genTime + delay) / 1000)))}星塵)`)
@@ -87,8 +94,16 @@ const generation = () => {
                 amount: item.ownedAmount
             })
         }
-    })
 
+        let itemsBefore = [...shopItems.filter(it => shopItems.indexOf(it) <= i)]
+        if (game.sparkles * 10 >= item.priceBase || item.ownedAmount > 0) {
+            itemsBefore.forEach(e => e.element.show())
+            item.element.show()
+        } else {
+            item.element.hide()
+        }
+    })
+    
     $.each(upgrades, (i, item) => {
         if (!game.upgrades.find(it => it.id === item.id)) {
             game.upgrades.push({
@@ -101,7 +116,7 @@ const generation = () => {
             game.upgrades.find(it => it.id === item.id).amount = item.max
         }
     })
-
+    
     $.each(rpUpgrades, (i, item) => {
         if (!game.rpUpgrades.find(it => it.id === item.id)) {
             game.rpUpgrades.push({
@@ -114,12 +129,14 @@ const generation = () => {
             game.rpUpgrades.find(it => it.id === item.id).amount = item.max
         }
     })
-
+    
     $.each(shopItems.reverse(), (i, item) => {
         if (absi && item.currentPrice <= game.sparkles) {
             item.button[0].click()
         }
     })
+
+
 
     let upgMulti = upgMult / 10
     let upgPower = power / 100

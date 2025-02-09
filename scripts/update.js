@@ -1,4 +1,4 @@
-const version = 'v1.0.0'
+const version = 'v1.0.1'
 
 const updateInfo = [
     {
@@ -10,8 +10,18 @@ const updateInfo = [
                 text: '現在你來玩玩看吧',
             }
         ]
+    },
+    {
+        title: '小小小更新',
+        version: 'v1.0.1',
+        description: [
+            {
+                title: '修復一些Bug',
+                text: '都是顯示問題',
+            }
+        ]
     }
-]
+].reverse();
 
 $('.version').text(version)
 
