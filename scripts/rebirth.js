@@ -65,7 +65,7 @@ $('.rebirth-button').on('click', () => {
     ])
 })
 
-let autoBuyShopItems = new Upgrade('自動購買商店物品', 1e6, '會申請外星人在每次得到製造星塵時買商店物品', 'autoBuyShopItems', 0, 2, () => {
+let autoBuyShopItems = new Upgrade('自動購買商店物品', 1e9, '會申請外星人在每次得到製造星塵時買商店物品', 'autoBuyShopItems', 0, 2, () => {
     autoBuyShopItems.button.text(absi ? '關閉' : '開啟')
     autoBuyShopItems.button[0].onclick = () => {
         if (game.sparkles >= maxNum) return showNotif('但是沒有用...')
@@ -80,10 +80,10 @@ let dontResetSDUpgradesOnRB = new Upgrade('不在重生時重置星塵升級', 1
     dontResetSDUpgradesOnRB.button.text('已購買')
 }, 1)
 
-let powerUpg = new Upgrade('提升次方', 1e110, '次方增加0.01', 'powerUpg', 0, 2, () => {
+let powerUpg = new Upgrade('提升次方', 1e106, '次方增加0.01', 'powerUpg', 0, 2, () => {
     power += 1
     powerUpg.displayText(`${powerUpg.ownedAmount}/${powerUpg.max} (^${power/100})`)
-}, 20, 100)
+}, 20, 1e3)
 
 rpUpgrades.forEach((upgrade, index) => {
     upgrade.displayText(upgrade.ownedAmount + '/' + upgrade.max)

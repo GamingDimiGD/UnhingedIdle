@@ -199,7 +199,7 @@ let autoSparkles = new Upgrade('自動合成閃', 1e5, '自動把星塵合成閃
 
 let multiply = new Upgrade('星塵倍率', 200, '每等增加0.1倍', 'multiply', 0, 1, () => {
     upgMult = 10 + multiply.ownedAmount + game.rebirthPoints * 10
-    multiply.element.find('b').text(multiply.ownedAmount + '/' + multiply.max + ` (倍率: ${shorten(Math.floor(upgMult / 10))})`)
+    multiply.element.find('b').text(multiply.ownedAmount + '/' + multiply.max + ` (倍率: ${upgMult > 1e6 ? '約' + shorten(Math.floor(upgMult / 10)) : upgMult / 10})`)
 }, 1e3)
 
 upgrades.forEach((upgrade, index) => {

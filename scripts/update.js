@@ -1,4 +1,4 @@
-const version = 'v1.0.1'
+const version = 'v1.0.2'
 
 const updateInfo = [
     {
@@ -18,6 +18,20 @@ const updateInfo = [
             {
                 title: '修復一些Bug',
                 text: '都是顯示問題',
+            }
+        ]
+    },
+    {
+        title: '修bug和平衡遊戲更新',
+        version: 'v1.0.2',
+        description: [
+            {
+                title: '修復bug',
+                text: '修復升級顯示問題',
+            },
+            {
+                title: '平衡遊戲',
+                text: '更改部分重生升級價格'
             }
         ]
     }
